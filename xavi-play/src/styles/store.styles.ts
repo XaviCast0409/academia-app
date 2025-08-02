@@ -76,4 +76,21 @@ export const storeStyles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 40,
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#6b7280', // gray-500
+    fontWeight: '500',
+  },
+  professorName: {
+    fontSize: 12,
+    color: '#9ca3af', // gray-400
+    marginBottom: 4,
+    fontStyle: 'italic',
+  },
 }); 

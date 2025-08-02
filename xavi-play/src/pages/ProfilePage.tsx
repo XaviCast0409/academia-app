@@ -1,12 +1,53 @@
 import React from 'react';
-import { View, Text, ScrollView, Image } from 'react-native';
+import { View, Text, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import PokemonHeader from '@/components/common/PokemonHeader';
 import { profileStyles } from '@/styles/profile.styles';
 import { useAuthStore } from '@/store/authStore';
+import { useFocusRefresh } from '@/hooks/useFocusRefresh';
+import { useUserStateListener } from '@/hooks/useUserStateListener';
+import { 
+  getExperienceProgress, 
+  getExperienceForNextLevel, 
+  getExperienceInCurrentLevel,
+  getExperienceRemaining,
+  getExperienceForCurrentLevel
+} from '@/utils/experience';
 
 const ProfilePage: React.FC = () => {
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
+  
+  // Refrescar datos cuando el usuario navega al perfil
+  useFocusRefresh();
+  
+  // Escuchar cambios en el estado del usuario para actualizar la vista
+  const { user: currentUser, forceUpdate } = useUserStateListener();
+
+  const handleLogout = () => {
+    Alert.alert(
+      'Cerrar Sesión',
+      '¿Estás seguro de que quieres cerrar sesión?',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        {
+          text: 'Cerrar Sesión',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await logout();
+              console.log('Sesión cerrada exitosamente');
+            } catch (error) {
+              console.error('Error al cerrar sesión:', error);
+              Alert.alert('Error', 'No se pudo cerrar la sesión');
+            }
+          },
+        },
+      ]
+    );
+  };
   
   // Mock badges data - in real app this would come from API
   const badges = [
@@ -19,12 +60,21 @@ const ProfilePage: React.FC = () => {
     return null; // Should not happen when authenticated
   }
 
-  const maxExperience = 100;
-  const experiencePercentage = (user.experience / maxExperience) * 100;
+  // Usar el usuario actual que puede haber sido actualizado
+  const displayUser = currentUser || user;
+
+  // Calcular progreso de experiencia usando las utilidades
+  // forceUpdate se usa para forzar el recálculo cuando cambia el estado
+  const experienceProgress = getExperienceProgress(displayUser.level, displayUser.experience);
+  const experienceForNextLevel = getExperienceForNextLevel(displayUser.level);
+  const experienceInCurrentLevel = getExperienceInCurrentLevel(displayUser.level, displayUser.experience);
+  const experienceRemaining = getExperienceRemaining(displayUser.level, displayUser.experience);
+  const experienceForCurrentLevel = getExperienceForCurrentLevel(displayUser.level);
+  const experienceNeededForNextLevel = experienceForNextLevel - experienceForCurrentLevel;
 
   return (
     <ScreenWrapper>
-      <PokemonHeader title="Mi Perfil" coins={user.xaviCoins} />
+      <PokemonHeader title="Mi Perfil" coins={displayUser.xaviCoins} />
       <ScrollView 
         style={profileStyles.content} 
         showsVerticalScrollIndicator={false}
@@ -34,10 +84,10 @@ const ProfilePage: React.FC = () => {
           {/* Avatar and basic info */}
           <View style={profileStyles.avatarSection}>
             <View style={profileStyles.avatarContainer}>
-              <Image source={{ uri: user.avatar }} style={profileStyles.avatar} />
+              <Image source={{ uri: displayUser.avatar }} style={profileStyles.avatar} />
             </View>
-            <Text style={profileStyles.username}>{user.username}</Text>
-            <Text style={profileStyles.level}>Nivel {user.level}</Text>
+            <Text style={profileStyles.username}>{displayUser.username}</Text>
+            <Text style={profileStyles.level}>Nivel {displayUser.level}</Text>
             
             {/* Progress bar */}
             <View style={profileStyles.progressContainer}>
@@ -45,15 +95,17 @@ const ProfilePage: React.FC = () => {
                 <View
                   style={[
                     profileStyles.progressFill,
-                    { width: `${experiencePercentage}%` },
+                    { width: `${experienceProgress}%` },
                   ]}
                 />
               </View>
               <View style={profileStyles.progressText}>
                 <Text style={profileStyles.progressLabel}>
-                  {user.experience}/{maxExperience} XP
+                  {experienceInCurrentLevel} XP / {experienceNeededForNextLevel} XP
                 </Text>
-                <Text style={profileStyles.progressLabel}>Nivel {user.level + 1}</Text>
+                <Text style={profileStyles.progressLabel}>
+                  Nivel {user.level + 1} ({experienceRemaining} XP restantes)
+                </Text>
               </View>
             </View>
           </View>
@@ -64,19 +116,19 @@ const ProfilePage: React.FC = () => {
             <View style={profileStyles.statsGrid}>
               <View style={profileStyles.statCard}>
                 <Text style={profileStyles.statLabel}>Actividades completadas</Text>
-                <Text style={profileStyles.statValue}>{user.completedActivities}</Text>
+                <Text style={profileStyles.statValue}>{displayUser.completedActivities}</Text>
               </View>
               <View style={profileStyles.statCard}>
                 <Text style={profileStyles.statLabel}>Total XaviCoins ganadas</Text>
-                <Text style={profileStyles.statValue}>{user.totalXaviCoins}</Text>
+                <Text style={profileStyles.statValue}>{displayUser.totalXaviCoins}</Text>
               </View>
               <View style={profileStyles.statCard}>
                 <Text style={profileStyles.statLabel}>Racha actual</Text>
-                <Text style={profileStyles.statValue}>{user.currentStreak} días</Text>
+                <Text style={profileStyles.statValue}>{displayUser.currentStreak} días</Text>
               </View>
               <View style={profileStyles.statCard}>
                 <Text style={profileStyles.statLabel}>Objetos comprados</Text>
-                <Text style={profileStyles.statValue}>{user.purchasedItems}</Text>
+                <Text style={profileStyles.statValue}>{displayUser.purchasedItems}</Text>
               </View>
             </View>
           </View>
@@ -99,6 +151,13 @@ const ProfilePage: React.FC = () => {
                 </View>
               ))}
             </View>
+          </View>
+
+          {/* Logout Section */}
+          <View style={profileStyles.logoutSection}>
+            <TouchableOpacity style={profileStyles.logoutButton} onPress={handleLogout}>
+              <Text style={profileStyles.logoutButtonText}>Cerrar Sesión</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

@@ -108,4 +108,41 @@ export const activitiesStyles = StyleSheet.create({
   completedButtonText: {
     color: '#ffffff',
   },
+  // Nuevos estilos para las actividades reales
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 40,
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#6b7280', // gray-500
+    fontWeight: '500',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 40,
+  },
+  errorText: {
+    fontSize: 16,
+    color: '#dc2626', // red-600
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  activityImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 8,
+    marginRight: 12,
+    alignSelf: 'center',
+  },
+  professorName: {
+    fontSize: 12,
+    color: '#9ca3af', // gray-400
+    marginTop: 4,
+    fontStyle: 'italic',
+  },
 }); 

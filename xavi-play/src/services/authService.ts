@@ -1,8 +1,24 @@
 import api from './api';
 import { User } from '@/types/user';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Función para decodificar el token JWT y obtener el ID del usuario
+const decodeToken = (token: string): { id: number } | null => {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  } catch (error) {
+    console.error('Error decoding token:', error);
+    return null;
+  }
+};
 
 export interface LoginCredentials {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -11,47 +27,81 @@ export interface LoginResponse {
   token: string;
 }
 
+export interface BackendUser {
+  id: number;
+  name: string;
+  email: string;
+  roleId: number;
+  pokemonId: number;
+  xavicoints: number;
+  section: string;
+  level: number;
+  experience: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  role?: {
+    id: number;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+  pokemon?: {
+    id: number;
+    name: string;
+    imageUrl: string;
+    highResImageUrl: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+
 class AuthService {
   // Login user
   async login(credentials: LoginCredentials): Promise<LoginResponse> {
     try {
-      // In a real app, this would be an actual API call
-      // const response = await api.post('/auth/login', credentials);
+      console.log('AuthService: Iniciando login...');
+      const response = await api.post('/users/login', credentials);
+      console.log('AuthService: Response recibida:', response.data);
+      const { token, user: backendUser } = response.data;
       
-      // Mock response for now
-      const mockResponse: LoginResponse = {
-        user: {
-          id: '1',
-          username: credentials.username,
-          level: 5,
-          experience: 45,
-          xaviCoins: 1500,
-          completedActivities: 12,
-          totalXaviCoins: 3250,
-          currentStreak: 5,
-          purchasedItems: 8,
-          avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
-        },
-        token: 'mock-jwt-token',
+      // Transform backend user to app user format
+      const user: User = {
+        id: backendUser.id.toString(),
+        username: backendUser.name,
+        level: backendUser.level || 1,
+        experience: backendUser.experience || 0,
+        xaviCoins: backendUser.xavicoints || 0,
+        completedActivities: 0, // Will be fetched separately
+        totalXaviCoins: backendUser.xavicoints || 0,
+        currentStreak: 0, // Will be calculated
+        purchasedItems: 0, // Will be fetched separately
+        avatar: backendUser.pokemon?.highResImageUrl || backendUser.pokemon?.imageUrl || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
+        section: backendUser.section,
+        roleId: backendUser.roleId,
+        pokemonId: backendUser.pokemonId,
       };
-
-      // Store token
-      localStorage.setItem('authToken', mockResponse.token);
+      console.log("AuthService: User transformado:", user);
       
-      return mockResponse;
-    } catch (error) {
-      throw new Error('Login failed');
+      // Store token
+      await AsyncStorage.setItem('authToken', token);
+      console.log('AuthService: Token guardado en AsyncStorage');
+      
+      const result = { token, user };
+      console.log('AuthService: Retornando resultado:', result);
+      return result;
+    } catch (error: any) {
+      console.log('AuthService: Error en login:', error);
+      console.log('AuthService: Error response:', error.response);
+      throw new Error(error.response?.data?.message || 'Error al iniciar sesión');
     }
   }
 
   // Logout user
   async logout(): Promise<void> {
     try {
-      // In a real app, this would call the logout endpoint
-      // await api.post('/auth/logout');
-      
       // Remove token
-      localStorage.removeItem('authToken');
+      await AsyncStorage.removeItem('authToken');
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -60,32 +110,50 @@ class AuthService {
   // Get current user
   async getCurrentUser(): Promise<User | null> {
     try {
-      // In a real app, this would call the user profile endpoint
-      // const response = await api.get('/auth/me');
+      const token = await AsyncStorage.getItem('authToken');
+      if (!token) return null;
+
+      // Decodificar el token para obtener el ID del usuario
+      const decodedToken = decodeToken(token);
+      if (!decodedToken || !decodedToken.id) {
+        console.error('No se pudo obtener el ID del usuario del token');
+        return null;
+      }
+
+      const response = await api.get(`/users/byId/${decodedToken.id}`);
+      const backendUser = response.data;
       
-      // Mock response for now
-      const mockUser: User = {
-        id: '1',
-        username: 'Entrenador Ash',
-        level: 5,
-        experience: 45,
-        xaviCoins: 1500,
-        completedActivities: 12,
-        totalXaviCoins: 3250,
-        currentStreak: 5,
-        purchasedItems: 8,
-        avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
+      // Transform backend user to app user format
+      const user: User = {
+        id: backendUser.id.toString(),
+        username: backendUser.name,
+        level: backendUser.level || 1,
+        experience: backendUser.experience || 0,
+        xaviCoins: backendUser.xavicoints || 0,
+        completedActivities: 0, // Will be fetched separately
+        totalXaviCoins: backendUser.xavicoints || 0,
+        currentStreak: 0, // Will be calculated
+        purchasedItems: 0, // Will be fetched separately
+        avatar: backendUser.pokemon?.highResImageUrl || backendUser.pokemon?.imageUrl || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
+        section: backendUser.section,
+        roleId: backendUser.roleId,
+        pokemonId: backendUser.pokemonId,
       };
 
-      return mockUser;
+      return user;
     } catch (error) {
       return null;
     }
   }
 
   // Check if user is authenticated
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem('authToken');
+  async isAuthenticated(): Promise<boolean> {
+    try {
+      const token = await AsyncStorage.getItem('authToken');
+      return !!token;
+    } catch (error) {
+      return false;
+    }
   }
 }
 

@@ -3,13 +3,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useAuthStore } from '@/store/authStore';
+import { useAppStateRefresh } from '@/hooks/useAppStateRefresh';
 import { RootStackParamList, TabParamList } from '@/types/navigation';
 import LoginPage from '@/components/auth/LoginPage';
 import StorePage from '@/pages/StorePage';
 import ActivitiesPage from '@/pages/ActivitiesPage';
 import ProfilePage from '@/pages/ProfilePage';
+import ActivityDetailsPage from '@/pages/ActivityDetailsPage';
 import BottomTabBar from '@/components/navigation/BottomTabBar';
-import MainLayout from '@/components/common/MainLayout';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -22,17 +23,25 @@ const TabNavigator: React.FC = () => {
       screenOptions={{
         headerShown: false,
       }}
+      initialRouteName="Profile" // Cambiar pantalla inicial a Profile
     >
+      <Tab.Screen name="Profile" component={ProfilePage} />
       <Tab.Screen name="Store" component={StorePage} />
       <Tab.Screen name="Activities" component={ActivitiesPage} />
-      <Tab.Screen name="Profile" component={ProfilePage} />
     </Tab.Navigator>
   );
 };
 
 // Main app navigator
 const AppNavigator: React.FC = () => {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, initializeAuth } = useAuthStore();
+  
+  // Hook para refrescar datos cuando la app vuelve a estar activa
+  useAppStateRefresh();
+
+  React.useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
 
   return (
     <NavigationContainer>
@@ -40,7 +49,10 @@ const AppNavigator: React.FC = () => {
         {!isAuthenticated ? (
           <Stack.Screen name="Login" component={LoginPage} />
         ) : (
-          <Stack.Screen name="Main" component={TabNavigator} />
+          <>
+            <Stack.Screen name="Main" component={TabNavigator} />
+            <Stack.Screen name="ActivityDetails" component={ActivityDetailsPage} />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>

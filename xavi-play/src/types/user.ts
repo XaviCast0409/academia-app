@@ -9,6 +9,9 @@ export interface User {
   currentStreak: number;
   purchasedItems: number;
   avatar?: string;
+  section?: string;
+  roleId?: number;
+  pokemonId?: number;
 }
 
 export interface UserStats {

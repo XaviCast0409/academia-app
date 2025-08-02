@@ -1,21 +1,23 @@
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Base API configuration
 const api = axios.create({
-  baseURL: 'https://api.example.com', // Replace with your actual API URL
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  //baseURL: 'http://localhost:3000/', // ajusta a tu backend
+  baseURL: "https://academia-nho8.onrender.com/"  // produccion
 });
 
 // Request interceptor for adding auth token
 api.interceptors.request.use(
-  (config) => {
+  async (config) => {
     // Add auth token if available
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    try {
+      const token = await AsyncStorage.getItem('authToken');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } catch (error) {
+      console.log('Error getting token from AsyncStorage:', error);
     }
     return config;
   },
@@ -24,16 +26,21 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor for handling errors
+// Interceptor para respuestas
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Handle common errors (401, 403, etc.)
-    if (error.response?.status === 401) {
-      // Handle unauthorized access
-      console.log('Unauthorized access');
+    if (error.response) {
+      // El servidor respondió con un código de estado fuera del rango 2xx
+      const message = error.response.data?.message || 'Error en la solicitud';
+      return Promise.reject(new Error(message));
+    } else if (error.request) {
+      // La solicitud fue hecha pero no se recibió respuesta
+      return Promise.reject(new Error('No se recibió respuesta del servidor'));
+    } else {
+      // Algo sucedió al configurar la solicitud
+      return Promise.reject(new Error('Error al configurar la solicitud'));
     }
-    return Promise.reject(error);
   }
 );
 

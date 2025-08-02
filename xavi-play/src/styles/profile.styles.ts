@@ -147,4 +147,25 @@ export const profileStyles = StyleSheet.create({
     color: '#6b7280', // gray-600
     textAlign: 'center',
   },
+  // Logout section styles
+  logoutSection: {
+    marginTop: 20,
+    paddingTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#e5e7eb', // gray-200
+  },
+  logoutButton: {
+    backgroundColor: '#dc2626', // red-600
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#991b1b', // red-800
+  },
+  logoutButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 }); 

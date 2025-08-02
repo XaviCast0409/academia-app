@@ -9,7 +9,7 @@ export default function App(): React.JSX.Element {
   return (
     <SafeAreaProvider>
       <PaperProvider theme={theme}>
-        <StatusBar style="light" backgroundColor="#dc2626" />
+        <StatusBar style="light" />
         <AppNavigator />
       </PaperProvider>
     </SafeAreaProvider>

@@ -7,45 +7,48 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { loginStyles } from '@/styles/login.styles';
 import { LoginPageProps } from '@/types/auth';
 import { useAuthStore } from '@/store/authStore';
-import { User } from '@/types/user';
 
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [usernameFocused, setUsernameFocused] = useState(false);
+  const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
-  
+  const [isLoading, setIsLoading] = useState(false);
+
   const { login } = useAuthStore();
 
-  const handleSubmit = () => {
-    if (username.trim() && password.trim()) {
-      // Mock user data - in real app this would come from API
-      const mockUser: User = {
-        id: '1',
-        username: username.trim(),
-        level: 5,
-        experience: 45,
-        xaviCoins: 1500,
-        completedActivities: 12,
-        totalXaviCoins: 3250,
-        currentStreak: 5,
-        purchasedItems: 8,
-        avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
-      };
-      
-      login(mockUser);
+  const handleSubmit = async () => {
+    if (!email.trim() || !password.trim()) {
+      Alert.alert('Error', 'Por favor completa todos los campos');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      console.log('Iniciando login...');
+      await login(email.trim(), password.trim());
+      console.log('Login exitoso, llamando onLogin...');
       onLogin?.();
+      console.log('onLogin ejecutado');
+    } catch (error: any) {
+      console.log("Error en login:", error);
+      console.log("Error message:", error.message);
+      console.log("Error response:", error.response);
+      Alert.alert('Error de Login', error.message || 'Error al iniciar sesión');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const isFormValid = username.trim() && password.trim();
+  const isFormValid = email.trim() && password.trim();
 
   return (
     <SafeAreaView style={loginStyles.container} edges={['top', 'bottom']}>
@@ -91,20 +94,22 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               </Text>
 
               <View style={loginStyles.inputContainer}>
-                <Text style={loginStyles.label}>Nombre de Entrenador</Text>
+                <Text style={loginStyles.label}>Email</Text>
                 <TextInput
                   mode="outlined"
-                  value={username}
-                  onChangeText={setUsername}
-                  placeholder="Ash Ketchum"
+                  value={email}
+                  onChangeText={setEmail}
+                  placeholder="ash@pokemon.com"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
                   style={[
                     loginStyles.input,
-                    usernameFocused && loginStyles.inputFocused,
+                    emailFocused && loginStyles.inputFocused,
                   ]}
                   outlineColor="#d1d5db"
                   activeOutlineColor="#fbbf24"
-                  onFocus={() => setUsernameFocused(true)}
-                  onBlur={() => setUsernameFocused(false)}
+                  onFocus={() => setEmailFocused(true)}
+                  onBlur={() => setEmailFocused(false)}
                   theme={{
                     colors: {
                       primary: '#fbbf24',
@@ -145,19 +150,19 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
               <TouchableOpacity
                 onPress={handleSubmit}
-                disabled={!isFormValid}
+                disabled={!isFormValid || isLoading}
                 style={[
                   loginStyles.button,
-                  !isFormValid && loginStyles.buttonDisabled,
+                  (!isFormValid || isLoading) && loginStyles.buttonDisabled,
                 ]}
               >
                 <Text
                   style={[
                     loginStyles.buttonText,
-                    !isFormValid && loginStyles.buttonTextDisabled,
+                    (!isFormValid || isLoading) && loginStyles.buttonTextDisabled,
                   ]}
                 >
-                  ¡Quiero ser el mejor!
+                  {isLoading ? 'Iniciando sesión...' : '¡Quiero ser el mejor!'}
                 </Text>
               </TouchableOpacity>
             </View>

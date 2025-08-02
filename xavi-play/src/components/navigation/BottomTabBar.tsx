@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { TabParamList } from '@/types/navigation';
 import { tabBarStyles } from '@/styles/tabBar.styles';
 
@@ -24,6 +23,11 @@ const BottomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
 
   const tabs = [
     {
+      name: 'Profile' as keyof TabParamList,
+      label: 'Perfil',
+      icon: '👤',
+    },
+    {
       name: 'Store' as keyof TabParamList,
       label: 'Tienda',
       icon: '🛍️',
@@ -32,11 +36,6 @@ const BottomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
       name: 'Activities' as keyof TabParamList,
       label: 'Actividades',
       icon: '📝',
-    },
-    {
-      name: 'Profile' as keyof TabParamList,
-      label: 'Perfil',
-      icon: '👤',
     },
   ];
 
