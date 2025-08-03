@@ -15,39 +15,13 @@ import {
 } from '@/utils/experience';
 
 const ProfilePage: React.FC = () => {
-  const { user, logout } = useAuthStore();
+  const { user } = useAuthStore();
   
   // Refrescar datos cuando el usuario navega al perfil
   useFocusRefresh();
   
   // Escuchar cambios en el estado del usuario para actualizar la vista
   const { user: currentUser, forceUpdate } = useUserStateListener();
-
-  const handleLogout = () => {
-    Alert.alert(
-      'Cerrar Sesión',
-      '¿Estás seguro de que quieres cerrar sesión?',
-      [
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-        },
-        {
-          text: 'Cerrar Sesión',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await logout();
-              console.log('Sesión cerrada exitosamente');
-            } catch (error) {
-              console.error('Error al cerrar sesión:', error);
-              Alert.alert('Error', 'No se pudo cerrar la sesión');
-            }
-          },
-        },
-      ]
-    );
-  };
   
   // Mock badges data - in real app this would come from API
   const badges = [
@@ -74,7 +48,7 @@ const ProfilePage: React.FC = () => {
 
   return (
     <ScreenWrapper>
-      <PokemonHeader title="Mi Perfil" coins={displayUser.xaviCoins} />
+      <PokemonHeader title="Mi Perfil" />
       <ScrollView 
         style={profileStyles.content} 
         showsVerticalScrollIndicator={false}
@@ -153,12 +127,7 @@ const ProfilePage: React.FC = () => {
             </View>
           </View>
 
-          {/* Logout Section */}
-          <View style={profileStyles.logoutSection}>
-            <TouchableOpacity style={profileStyles.logoutButton} onPress={handleLogout}>
-              <Text style={profileStyles.logoutButtonText}>Cerrar Sesión</Text>
-            </TouchableOpacity>
-          </View>
+
         </View>
       </ScrollView>
     </ScreenWrapper>

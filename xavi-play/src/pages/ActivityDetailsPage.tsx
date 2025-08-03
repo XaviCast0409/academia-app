@@ -4,6 +4,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import PokemonHeader from '@/components/common/PokemonHeader';
 import ImageModal from '@/components/common/ImageModal';
+import EvidenceSection from '@/components/evidence/EvidenceSection';
 import { activityDetailsStyles } from '@/styles/activityDetails.styles';
 import { useAuthStore } from '@/store/authStore';
 import activityService from '@/services/activityService';
@@ -83,10 +84,27 @@ const ActivityDetailsPage: React.FC = () => {
     setImageModalVisible(false);
   };
 
+  const handleEvidenceSubmitted = (urls: string[]) => {
+    console.log('Evidence submitted for activity:', activityId, urls);
+    Alert.alert(
+      'Evidencias Enviadas',
+      'Tus evidencias han sido enviadas correctamente. El profesor las revisará pronto.',
+      [
+        { 
+          text: 'OK',
+          onPress: () => {
+            // Navegar de regreso a la lista de actividades
+            navigation.goBack();
+          }
+        }
+      ]
+    );
+  };
+
   if (loading) {
     return (
       <ScreenWrapper>
-        <PokemonHeader title="Detalles de Actividad" coins={user?.xaviCoins || 0} />
+        <PokemonHeader title="Detalles de Actividad" />
         <View style={activityDetailsStyles.loadingContainer}>
           <Text style={activityDetailsStyles.loadingText}>Cargando detalles...</Text>
         </View>
@@ -97,7 +115,7 @@ const ActivityDetailsPage: React.FC = () => {
   if (error || !activity) {
     return (
       <ScreenWrapper>
-        <PokemonHeader title="Detalles de Actividad" coins={user?.xaviCoins || 0} />
+        <PokemonHeader title="Detalles de Actividad" />
         <View style={activityDetailsStyles.errorContainer}>
           <Text style={activityDetailsStyles.errorText}>
             {error || 'No se pudo cargar la actividad'}
@@ -112,7 +130,7 @@ const ActivityDetailsPage: React.FC = () => {
 
   return (
     <ScreenWrapper>
-      <PokemonHeader title="Detalles de Actividad" coins={user?.xaviCoins || 0} />
+      <PokemonHeader title="Detalles de Actividad" />
       <ScrollView
         style={activityDetailsStyles.content}
         showsVerticalScrollIndicator={false}
@@ -193,6 +211,14 @@ const ActivityDetailsPage: React.FC = () => {
               <Text style={activityDetailsStyles.rewardLabel}>XaviCoins</Text>
             </View>
           </View>
+
+          {/* Sección de Evidencias */}
+          <EvidenceSection
+            activityId={activityId}
+            onEvidenceSubmitted={handleEvidenceSubmitted}
+            maxFiles={5}
+            maxFileSize={5 * 1024 * 1024} // 5MB
+          />
         </View>
       </ScrollView>
 

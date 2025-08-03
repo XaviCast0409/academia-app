@@ -91,7 +91,7 @@ const StorePage: React.FC = () => {
 
   return (
     <ScreenWrapper>
-      <PokemonHeader title="Tienda Pokémon" coins={user?.xaviCoins || 0} />
+      <PokemonHeader title="Tienda Pokémon" />
       <ScrollView 
         style={storeStyles.content} 
         showsVerticalScrollIndicator={false}

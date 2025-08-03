@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import PokemonHeader from '@/components/common/PokemonHeader';
 import Pagination from '@/components/common/Pagination';
@@ -30,6 +30,18 @@ const ActivitiesPage: React.FC = () => {
       });
     }
   }, [user, loadActivities]);
+
+  // Refrescar actividades cuando la pantalla obtiene el foco
+  useFocusEffect(
+    useCallback(() => {
+      if (user) {
+        console.log('ActivitiesPage: Refreshing activities on focus');
+        loadActivities(parseInt(user.id)).catch((error) => {
+          console.error('Error refreshing activities:', error);
+        });
+      }
+    }, [user, loadActivities])
+  );
 
   const handlePageChange = (page: number) => {
     if (user) {
@@ -73,7 +85,7 @@ const ActivitiesPage: React.FC = () => {
 
   return (
     <ScreenWrapper>
-      <PokemonHeader title="Actividades" coins={user?.xaviCoins || 0} />
+      <PokemonHeader title="Actividades" />
       <ScrollView 
         style={activitiesStyles.content} 
         showsVerticalScrollIndicator={false}

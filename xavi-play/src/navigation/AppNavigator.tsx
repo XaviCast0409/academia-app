@@ -10,6 +10,10 @@ import StorePage from '@/pages/StorePage';
 import ActivitiesPage from '@/pages/ActivitiesPage';
 import ProfilePage from '@/pages/ProfilePage';
 import ActivityDetailsPage from '@/pages/ActivityDetailsPage';
+import EvidencesPage from '@/pages/EvidencesPage';
+import TransactionsPage from '@/pages/TransactionsPage';
+import RankingPage from '@/pages/RankingPage';
+import MissionsPage from '@/pages/MissionsPage';
 import BottomTabBar from '@/components/navigation/BottomTabBar';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -50,8 +54,12 @@ const AppNavigator: React.FC = () => {
           <Stack.Screen name="Login" component={LoginPage} />
         ) : (
           <>
-            <Stack.Screen name="Main" component={TabNavigator} />
-            <Stack.Screen name="ActivityDetails" component={ActivityDetailsPage} />
+                               <Stack.Screen name="Main" component={TabNavigator} />
+                   <Stack.Screen name="ActivityDetails" component={ActivityDetailsPage} />
+                   <Stack.Screen name="Evidences" component={EvidencesPage} />
+                   <Stack.Screen name="Transactions" component={TransactionsPage} />
+                   <Stack.Screen name="Ranking" component={RankingPage} />
+                   <Stack.Screen name="Missions" component={MissionsPage} />
           </>
         )}
       </Stack.Navigator>
