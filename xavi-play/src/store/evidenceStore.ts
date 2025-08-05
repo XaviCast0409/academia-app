@@ -13,7 +13,7 @@ interface EvidenceState {
   clearError: () => void;
 }
 
-export const useEvidenceStore = create<EvidenceState>((set, get) => ({
+export const useEvidenceStore = create<EvidenceState>((set) => ({
   evidences: [],
   loading: false,
   error: null,
@@ -24,9 +24,9 @@ export const useEvidenceStore = create<EvidenceState>((set, get) => ({
   loadEvidences: async (studentId: number, page: number = 1) => {
     try {
       set({ loading: true, error: null });
-      
+
       const response: EvidencesResponse = await evidenceService.getEvidencesByStudent(studentId, page);
-      
+
       set({
         evidences: response.evidences,
         currentPage: response.page,

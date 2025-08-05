@@ -4,9 +4,6 @@ import {
   UserAchievement,
   AchievementStats,
   AchievementFilters,
-  AchievementCategory,
-  AchievementStatus,
-  AchievementSortBy
 } from '@/types/achievement';
 import achievementService from '@/services/achievementService';
 

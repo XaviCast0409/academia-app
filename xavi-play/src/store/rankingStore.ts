@@ -12,7 +12,7 @@ interface RankingState {
   clearError: () => void;
 }
 
-export const useRankingStore = create<RankingState>((set, get) => ({
+export const useRankingStore = create<RankingState>((set) => ({
   users: [],
   loading: false,
   error: null,

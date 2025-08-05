@@ -10,7 +10,7 @@ interface ProductState {
   clearProducts: () => void;
 }
 
-export const useProductStore = create<ProductState>((set, get) => ({
+export const useProductStore = create<ProductState>((set) => ({
   products: [],
   loading: false,
   error: null,

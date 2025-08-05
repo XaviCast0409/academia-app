@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
@@ -17,7 +17,6 @@ const EvidencesPage: React.FC = () => {
     error, 
     currentPage, 
     totalPages, 
-    totalEvidences,
     loadEvidences 
   } = useEvidenceStore();
 

@@ -67,8 +67,6 @@ class AuthService {
       console.log('AuthService: Response recibida:', response.data);
       const { token, user: backendUser } = response.data;
       
-
-      
       // Transform backend user to app user format
       const user: User = {
         id: backendUser.id.toString(),
@@ -85,8 +83,6 @@ class AuthService {
         roleId: backendUser.roleId,
         pokemonId: backendUser.pokemonId,
       };
-      
-
       
       // Store token
       await AsyncStorage.setItem('authToken', token);
@@ -127,9 +123,7 @@ class AuthService {
 
       const response = await api.get(`/users/byId/${decodedToken.id}`);
       const backendUser = response.data;
-      
-
-      
+            
       // Transform backend user to app user format
       const user: User = {
         id: backendUser.id.toString(),
@@ -147,8 +141,6 @@ class AuthService {
         pokemonId: backendUser.pokemonId,
       };
       
-
-
       return user;
     } catch (error) {
       return null;

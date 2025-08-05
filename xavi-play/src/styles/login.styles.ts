@@ -117,4 +117,29 @@ export const loginStyles = StyleSheet.create({
     width: 96,
     resizeMode: 'contain',
   },
+  createUserContainer: {
+    alignItems: 'center',
+    marginTop: 16,
+    paddingTop: 16,
+    borderTopWidth: 1,
+    borderTopColor: '#e5e7eb', // gray-200
+  },
+  createUserText: {
+    fontSize: 14,
+    color: '#6b7280', // gray-500
+    marginBottom: 8,
+  },
+  createUserButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: '#3b82f6', // blue-500
+    borderRadius: 20,
+  },
+  createUserButtonText: {
+    color: '#3b82f6', // blue-500
+    fontSize: 14,
+    fontWeight: '600',
+  },
 }); 

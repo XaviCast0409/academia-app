@@ -17,6 +17,9 @@ import TransactionsPage from '@/pages/TransactionsPage';
 import RankingPage from '@/pages/RankingPage';
 import MissionsPage from '@/pages/MissionsPage';
 import AchievementsPage from '@/pages/AchievementsPage';
+import CreateUserPage from '@/pages/CreateUserPage';
+import RegisterPage from '@/pages/RegisterPage';
+import LoginAfterRegisterPage from '@/pages/LoginAfterRegisterPage';
 import BottomTabBar from '@/components/navigation/BottomTabBar';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -60,7 +63,12 @@ const AppNavigator: React.FC = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {!isAuthenticated ? (
-          <Stack.Screen name="Login" component={LoginPage} />
+          <>
+            <Stack.Screen name="Login" component={LoginPage} />
+            <Stack.Screen name="CreateUser" component={CreateUserPage} />
+            <Stack.Screen name="Register" component={RegisterPage} />
+            <Stack.Screen name="LoginAfterRegister" component={LoginAfterRegisterPage} />
+          </>
         ) : (
           <>
             <Stack.Screen name="Main" component={TabNavigator} />
@@ -70,6 +78,9 @@ const AppNavigator: React.FC = () => {
             <Stack.Screen name="Ranking" component={RankingPage} />
             <Stack.Screen name="Missions" component={MissionsPage} />
             <Stack.Screen name="Achievements" component={AchievementsPage} />
+            <Stack.Screen name="CreateUser" component={CreateUserPage} />
+            <Stack.Screen name="Register" component={RegisterPage} />
+            <Stack.Screen name="LoginAfterRegister" component={LoginAfterRegisterPage} />
           </>
         )}
       </Stack.Navigator>

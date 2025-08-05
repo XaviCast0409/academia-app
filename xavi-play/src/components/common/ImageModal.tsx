@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, Dimensions, ScrollView, Image } from 'react-native';
 import { imageModalStyles } from '@/styles/imageModal.styles';
 
@@ -64,9 +64,9 @@ const ImageModal: React.FC<ImageModalProps> = ({
 
         {/* Contenedor de imagen con zoom nativo */}
         <View style={imageModalStyles.imageContainer}>
-          <ScrollView 
-            horizontal 
-            pagingEnabled 
+          <ScrollView
+            horizontal
+            pagingEnabled
             showsHorizontalScrollIndicator={false}
             onMomentumScrollEnd={handleScrollEnd}
             style={imageModalStyles.scrollView}
@@ -99,7 +99,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
         {/* Controles de navegación */}
         {images.length > 1 && (
           <View style={imageModalStyles.navigation}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={[
                 imageModalStyles.navButton,
                 currentIndex === 0 && imageModalStyles.navButtonDisabled
@@ -109,8 +109,8 @@ const ImageModal: React.FC<ImageModalProps> = ({
             >
               <Text style={imageModalStyles.navButtonText}>‹</Text>
             </TouchableOpacity>
-            
-            <TouchableOpacity 
+
+            <TouchableOpacity
               style={[
                 imageModalStyles.navButton,
                 currentIndex === images.length - 1 && imageModalStyles.navButtonDisabled

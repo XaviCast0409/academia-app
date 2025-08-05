@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
@@ -18,7 +18,6 @@ const ActivitiesPage: React.FC = () => {
     error, 
     currentPage, 
     totalPages, 
-    totalActivities,
     loadActivities 
   } = useActivityStore();
 

@@ -1,5 +1,4 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface ScreenWrapperProps {
@@ -9,7 +8,7 @@ interface ScreenWrapperProps {
 
 const ScreenWrapper: React.FC<ScreenWrapperProps> = ({ children, style }) => {
   return (
-    <SafeAreaView style={[styles.container, style]} edges={['top']}>
+    <SafeAreaView style={[styles.container, style]} edges={['top', 'bottom']}>
       {children}
     </SafeAreaView>
   );
@@ -19,7 +18,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f3f4f6', // gray-100
-    paddingBottom: 40,
   },
 });
 

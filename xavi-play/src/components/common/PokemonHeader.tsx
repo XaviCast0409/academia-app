@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, Animated, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { headerStyles } from '@/styles/header.styles';
@@ -8,9 +8,11 @@ import XavicoinDisplay from './XavicoinDisplay';
 interface PokemonHeaderProps {
   title: string;
   onMenuPress?: () => void;
+  showBackButton?: boolean;
+  onBackPress?: () => void;
 }
 
-const PokemonHeader: React.FC<PokemonHeaderProps> = ({ title, onMenuPress }) => {
+const PokemonHeader: React.FC<PokemonHeaderProps> = ({ title, onMenuPress, showBackButton, onBackPress }) => {
   const navigation = useNavigation();
   const { user, logout } = useAuthStore();
   const [menuVisible, setMenuVisible] = useState(false);
@@ -85,6 +87,17 @@ const PokemonHeader: React.FC<PokemonHeaderProps> = ({ title, onMenuPress }) => 
   return (
     <View style={headerStyles.container}>
       <View style={headerStyles.content}>
+        {showBackButton ? (
+          <View style={headerStyles.leftSection}>
+            <TouchableOpacity
+              style={headerStyles.backButton}
+              onPress={onBackPress}
+              activeOpacity={0.7}
+            >
+              <Text style={headerStyles.backButtonText}>←</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
         <Text style={headerStyles.title}>{title}</Text>
         <View style={headerStyles.rightSection}>
           {user && (

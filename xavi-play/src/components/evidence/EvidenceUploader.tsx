@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,6 @@ import {
   ScrollView,
   Alert,
   ActivityIndicator,
-  Dimensions,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { evidenceUploaderStyles } from '@/styles/evidenceUploader.styles';
@@ -15,14 +14,11 @@ import evidenceService from '@/services/evidenceService';
 import cloudinaryService from '@/services/cloudinaryService';
 import { useAuthStore } from '@/store/authStore';
 
-const { width: screenWidth } = Dimensions.get('window');
-
 interface EvidenceUploaderProps {
   onUploadComplete: (urls: string[]) => void;
   resetUploader: number;
   activityId: number;
   maxFiles?: number;
-  maxFileSize?: number; // en bytes
 }
 
 const EvidenceUploader: React.FC<EvidenceUploaderProps> = ({
@@ -30,7 +26,6 @@ const EvidenceUploader: React.FC<EvidenceUploaderProps> = ({
   resetUploader,
   activityId,
   maxFiles = 5,
-  maxFileSize = 5 * 1024 * 1024, // 5MB por defecto
 }) => {
   const { user } = useAuthStore();
   const [selectedImages, setSelectedImages] = useState<string[]>([]);

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
@@ -10,7 +10,7 @@ import { UserMission } from '@/types/mission';
 
 type TabType = 'active' | 'completed';
 
-const MissionsPage: React.FC = () => {
+const MissionsPage = () => {
   console.log('MissionsPage: Component rendered');
   const { user } = useAuthStore();
   const { 

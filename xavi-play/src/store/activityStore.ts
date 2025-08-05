@@ -13,7 +13,7 @@ interface ActivityState {
   clearActivities: () => void;
 }
 
-export const useActivityStore = create<ActivityState>((set, get) => ({
+export const useActivityStore = create<ActivityState>((set) => ({
   activities: [],
   loading: false,
   error: null,

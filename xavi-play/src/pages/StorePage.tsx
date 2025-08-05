@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import PokemonHeader from '@/components/common/PokemonHeader';
@@ -8,7 +8,7 @@ import { useProductStore } from '@/store/productStore';
 import transactionService from '@/services/transactionService';
 import { Product } from '@/types/product';
 
-const StorePage: React.FC = () => {
+const StorePage = () => {
   const { user, updateUserXaviCoins, refreshUserData } = useAuthStore();
   const { products, loading, loadProducts } = useProductStore();
 

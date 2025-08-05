@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
@@ -6,7 +6,6 @@ import PokemonHeader from '@/components/common/PokemonHeader';
 import ImageModal from '@/components/common/ImageModal';
 import EvidenceSection from '@/components/evidence/EvidenceSection';
 import { activityDetailsStyles } from '@/styles/activityDetails.styles';
-import { useAuthStore } from '@/store/authStore';
 import activityService from '@/services/activityService';
 import { Activity } from '@/types/activity';
 
@@ -17,7 +16,6 @@ interface RouteParams {
 const ActivityDetailsPage: React.FC = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const { user } = useAuthStore();
   const { activityId } = route.params as RouteParams;
 
   const [activity, setActivity] = useState<Activity | null>(null);
@@ -217,7 +215,6 @@ const ActivityDetailsPage: React.FC = () => {
             activityId={activityId}
             onEvidenceSubmitted={handleEvidenceSubmitted}
             maxFiles={5}
-            maxFileSize={5 * 1024 * 1024} // 5MB
           />
         </View>
       </ScrollView>

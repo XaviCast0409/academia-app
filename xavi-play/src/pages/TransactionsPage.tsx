@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
@@ -9,7 +9,7 @@ import { useAuthStore } from '@/store/authStore';
 import { useTransactionStore } from '@/store/transactionStore';
 import { Transaction } from '@/types/transaction';
 
-const TransactionsPage: React.FC = () => {
+const TransactionsPage = () => {
   console.log('TransactionsPage: Component rendered');
   const { user } = useAuthStore();
   const { 
@@ -18,7 +18,6 @@ const TransactionsPage: React.FC = () => {
     error, 
     currentPage, 
     totalPages, 
-    totalTransactions,
     loadTransactions 
   } = useTransactionStore();
 

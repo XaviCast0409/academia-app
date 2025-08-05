@@ -1,8 +1,6 @@
 import api from './api';
 import { 
   UserMission, 
-  ActiveMissionsResponse, 
-  MissionHistoryResponse, 
   ClaimRewardRequest, 
   ClaimRewardResponse 
 } from '@/types/mission';

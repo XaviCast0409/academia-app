@@ -1,5 +1,5 @@
 import api from './api';
-import { Evidence, EvidencesResponse } from '@/types/evidence';
+import { EvidencesResponse } from '@/types/evidence';
 
 export interface EvidenceRequest {
   activityId: number;

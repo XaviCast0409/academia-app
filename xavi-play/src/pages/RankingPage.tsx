@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Alert, Image } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
@@ -7,7 +7,7 @@ import { rankingStyles } from '@/styles/ranking.styles';
 import { useRankingStore } from '@/store/rankingStore';
 import { RankingUser } from '@/types/ranking';
 
-const RankingPage: React.FC = () => {
+const RankingPage = () => {
   console.log('RankingPage: Component rendered');
   const { 
     users, 
@@ -16,7 +16,6 @@ const RankingPage: React.FC = () => {
     selectedSection,
     loadRanking, 
     setSelectedSection,
-    clearError 
   } = useRankingStore();
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 import api from './api';
-import { RankingUser, RankingResponse, RankingFilters } from '@/types/ranking';
+import { RankingResponse, RankingFilters } from '@/types/ranking';
 
 class RankingService {
   // Obtener ranking de usuarios

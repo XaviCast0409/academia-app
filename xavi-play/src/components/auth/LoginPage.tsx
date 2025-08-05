@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import { loginStyles } from '@/styles/login.styles';
 import { LoginPageProps } from '@/types/auth';
 import { useAuthStore } from '@/store/authStore';
@@ -24,6 +25,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { login } = useAuthStore();
+  const navigation = useNavigation();
 
   const handleSubmit = async () => {
     if (!email.trim() || !password.trim()) {
@@ -165,6 +167,18 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                   {isLoading ? 'Iniciando sesión...' : '¡Quiero ser el mejor!'}
                 </Text>
               </TouchableOpacity>
+
+              {/* Create User Link */}
+              <View style={loginStyles.createUserContainer}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Register' as never)}
+                  style={loginStyles.createUserButton}
+                >
+                  <Text style={loginStyles.createUserButtonText}>
+                    Crear nuevo usuario
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
 
             {/* Pikachu Image */}

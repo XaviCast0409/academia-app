@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
+import { useEffect } from 'react';
+import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ScreenWrapper from '@/components/common/ScreenWrapper';
 import PokemonHeader from '@/components/common/PokemonHeader';
@@ -28,7 +28,7 @@ const ProfilePage: React.FC = () => {
   // Escuchar cambios en el estado del usuario para actualizar la vista
   const { user: currentUser, forceUpdate } = useUserStateListener();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
       loadUserAchievements(parseInt(user.id));
     }

@@ -8,9 +8,7 @@ import { useAchievementStore } from '@/store/achievementStore';
 import { useAuthStore } from '@/store/authStore';
 import { 
   UserAchievement, 
-  AchievementCategory, 
   AchievementStatus,
-  AchievementSortBy 
 } from '@/types/achievement';
 
 const AchievementsPage: React.FC = () => {
@@ -20,20 +18,16 @@ const AchievementsPage: React.FC = () => {
   const {
     allAchievements,
     userAchievements,
-    achievementStats,
     loading,
-    loadingStats,
     error,
     lastRefresh,
     filters,
     loadAllAchievements,
-    loadUserAchievements,
     loadAchievementStats,
     refreshUserAchievements,
     claimAchievementReward,
     forceUpdateAndRefresh,
     setFilters,
-    getFilteredAchievements,
     getPendingClaimAchievements,
     clearError
   } = useAchievementStore();

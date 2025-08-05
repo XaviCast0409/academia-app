@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import EvidenceUploader from './EvidenceUploader';
 import { evidenceSectionStyles } from '@/styles/evidenceSection.styles';
@@ -7,14 +7,12 @@ interface EvidenceSectionProps {
   activityId: number;
   onEvidenceSubmitted?: (urls: string[]) => void;
   maxFiles?: number;
-  maxFileSize?: number;
 }
 
 const EvidenceSection: React.FC<EvidenceSectionProps> = ({
   activityId,
   onEvidenceSubmitted,
   maxFiles = 5,
-  maxFileSize = 5 * 1024 * 1024,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [resetUploader, setResetUploader] = useState(0);
@@ -46,19 +44,18 @@ const EvidenceSection: React.FC<EvidenceSectionProps> = ({
         </Text>
       </TouchableOpacity>
 
-      {/* Content */}
+      {/* Content */} 
       {isExpanded && (
         <View style={evidenceSectionStyles.content}>
           <Text style={evidenceSectionStyles.description}>
             Sube fotos de tu evidencia para completar esta actividad
           </Text>
-          
+
           <EvidenceUploader
             onUploadComplete={handleUploadComplete}
             resetUploader={resetUploader}
             activityId={activityId}
             maxFiles={maxFiles}
-            maxFileSize={maxFileSize}
           />
         </View>
       )}

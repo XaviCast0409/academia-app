@@ -2,10 +2,6 @@ import api from './api';
 import {
   Achievement,
   UserAchievement,
-  AchievementResponse,
-  UserAchievementsResponse,
-  AchievementProgressResponse,
-  ClaimAchievementRequest,
   ClaimAchievementResponse,
   AchievementStats
 } from '@/types/achievement';

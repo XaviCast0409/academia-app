@@ -13,7 +13,7 @@ interface TransactionState {
   clearError: () => void;
 }
 
-export const useTransactionStore = create<TransactionState>((set, get) => ({
+export const useTransactionStore = create<TransactionState>((set) => ({
   transactions: [],
   loading: false,
   error: null,
