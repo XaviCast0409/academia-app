@@ -1,8 +1,17 @@
 import { Sequelize } from "sequelize";
 import dataConfig from "./environment";
-import fs from "fs";
-import path from "path";
 import { VerificationCode } from "../models/VerificationCode";
+import { User } from "../models/User";
+import { Activity } from "../models/Activity";
+import { Evidence } from "../models/Evidence";
+import { Achievement } from "../models/Achievement";
+import { UserAchievement } from "../models/UserAchievement";
+import { Mission } from "../models/Mission";
+import { UserMission } from "../models/UserMission";
+import { Role } from "../models/Role";
+import { Pokemon } from "../models/Pokemon";
+import { Product } from "../models/Product";
+import { Transaction } from "../models/Transaction";
 
 const db: any = {}
 export const sequelize = new Sequelize({
@@ -26,25 +35,33 @@ export const sequelize = new Sequelize({
   },
 }); */
 
-const modelsDir = path.join(__dirname, "../models");
+// Inicializar todos los modelos manualmente
+const models = [
+  User,
+  Activity,
+  Evidence,
+  Achievement,
+  UserAchievement,
+  Mission,
+  UserMission,
+  Role,
+  Pokemon,
+  Product,
+  Transaction,
+  VerificationCode
+];
 
-fs.readdirSync(modelsDir)
-  .filter((file: string) => {
-    return (
-      file.indexOf(".") !== 0 && file.slice(-3) === ".js" && !file.includes("index")
-    );
-  })
-  .forEach((file: string) => {
-    const modelModule = require(path.join(modelsDir, file));
-    const model = modelModule.default || modelModule;
-    if (typeof model.initModel === "function") {
-      model.initModel(sequelize); // Usar initModel
-    }
-    if (model.name) {
-      db[model.name] = model;
-    }
-  });
+// Inicializar modelos
+models.forEach((model) => {
+  if (typeof model.initModel === "function") {
+    model.initModel(sequelize);
+  }
+  if (model.name) {
+    db[model.name] = model;
+  }
+});
 
+// Configurar asociaciones
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
@@ -59,9 +76,6 @@ Object.keys(db).forEach((modelName) => {
     console.error("Error al conectar a la base de datos:", error);
   }
 })();
-
-// Add VerificationCode to db object
-db.VerificationCode = VerificationCode;
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
