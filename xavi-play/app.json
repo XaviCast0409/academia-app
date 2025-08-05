@@ -20,7 +20,8 @@
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.xaviplay.xaviplay"
     },
     "web": {
       "favicon": "./assets/logo.png"
