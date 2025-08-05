@@ -13,13 +13,7 @@ const XavicoinDisplay: React.FC<XavicoinDisplayProps> = ({
 }) => {
   return (
     <View style={[xavicoinStyles.container, xavicoinStyles[size]]}>
-      <Image
-        source={{
-          uri: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png',
-        }}
-        style={xavicoinStyles.icon}
-        resizeMode="contain"
-      />
+      <Text style={[xavicoinStyles.coinIcon, xavicoinStyles[`${size}CoinIcon`]]}>🪙</Text>
       <Text style={[xavicoinStyles.text, xavicoinStyles[`${size}Text`]]}>
         {amount}
       </Text>

@@ -26,6 +26,11 @@ export const headerStyles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffffff',
   },
+  rightSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
   coinsContainer: {
     flexDirection: 'row',
     alignItems: 'center',

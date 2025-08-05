@@ -95,21 +95,176 @@ export const profileStyles = StyleSheet.create({
   statCard: {
     flex: 1,
     minWidth: '45%',
-    backgroundColor: '#fef2f2', // red-100
+    backgroundColor: '#ffffff',
     padding: 12,
-    borderRadius: 8,
+    borderRadius: 12,
     alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#dbeafe', // blue-200
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+    marginVertical: 4,
+  },
+  statIcon: {
+    fontSize: 24,
+    marginBottom: 8,
   },
   statLabel: {
     fontSize: 12,
     color: '#6b7280', // gray-600
     textAlign: 'center',
     marginBottom: 4,
+    fontWeight: '500',
   },
   statValue: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#dc2626', // red-600
+    color: '#1e40af', // blue-800
+  },
+  
+  // XaviCoins Section Styles
+  xavicoinsSection: {
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  xavicoinsContainer: {
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 8,
+    borderWidth: 3,
+    borderColor: '#fbbf24', // yellow-400 (marco dorado)
+  },
+  // Achievements Section Styles
+  achievementsSection: {
+    marginBottom: 20,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  viewAllButton: {
+    backgroundColor: '#3b82f6', // blue-500
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+  },
+  viewAllText: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  loadingContainer: {
+    alignItems: 'center',
+    padding: 20,
+  },
+  loadingText: {
+    fontSize: 14,
+    color: '#6b7280', // gray-600
+  },
+  achievementsGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+  achievementCard: {
+    flex: 1,
+    backgroundColor: '#f0f9ff', // blue-50
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginHorizontal: 4,
+  },
+  achievementIcon: {
+    fontSize: 24,
+    marginBottom: 4,
+  },
+  achievementLabel: {
+    fontSize: 10,
+    color: '#6b7280', // gray-600
+    textAlign: 'center',
+    marginBottom: 2,
+  },
+  achievementValue: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#1e40af', // blue-800
+  },
+  recentAchievements: {
+    marginBottom: 16,
+  },
+  subsectionTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#374151', // gray-700
+    marginBottom: 8,
+  },
+  recentAchievementCard: {
+    backgroundColor: '#ffffff',
+    padding: 12,
+    borderRadius: 8,
+    marginRight: 8,
+    minWidth: 100,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  recentAchievementIcon: {
+    fontSize: 20,
+    marginBottom: 4,
+  },
+  recentAchievementTitle: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: '#374151', // gray-700
+    textAlign: 'center',
+    marginBottom: 2,
+  },
+  recentAchievementProgress: {
+    fontSize: 8,
+    color: '#6b7280', // gray-600
+    textAlign: 'center',
+  },
+  // Actions Section Styles
+  actionsSection: {
+    marginBottom: 20,
+  },
+  actionsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  actionButton: {
+    flex: 1,
+    minWidth: '45%',
+    backgroundColor: '#f3f4f6', // gray-100
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#e5e7eb', // gray-200
+  },
+  actionIcon: {
+    fontSize: 24,
+    marginBottom: 8,
+  },
+  actionLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#374151', // gray-700
+    textAlign: 'center',
   },
   badgesSection: {
     marginBottom: 20,

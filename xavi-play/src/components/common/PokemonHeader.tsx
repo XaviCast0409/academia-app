@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Modal, Animated, Alert } from 'react-nati
 import { useNavigation } from '@react-navigation/native';
 import { headerStyles } from '@/styles/header.styles';
 import { useAuthStore } from '@/store/authStore';
+import XavicoinDisplay from './XavicoinDisplay';
 
 interface PokemonHeaderProps {
   title: string;
@@ -11,7 +12,7 @@ interface PokemonHeaderProps {
 
 const PokemonHeader: React.FC<PokemonHeaderProps> = ({ title, onMenuPress }) => {
   const navigation = useNavigation();
-  const { logout } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const [menuVisible, setMenuVisible] = useState(false);
 
   const handleMenuPress = () => {
@@ -85,17 +86,22 @@ const PokemonHeader: React.FC<PokemonHeaderProps> = ({ title, onMenuPress }) => 
     <View style={headerStyles.container}>
       <View style={headerStyles.content}>
         <Text style={headerStyles.title}>{title}</Text>
-        <TouchableOpacity
-          style={headerStyles.menuButton}
-          onPress={handleMenuPress}
-          activeOpacity={0.7}
-        >
-          <View style={headerStyles.menuIcon}>
-            <View style={headerStyles.menuLine} />
-            <View style={headerStyles.menuLine} />
-            <View style={headerStyles.menuLine} />
-          </View>
-        </TouchableOpacity>
+        <View style={headerStyles.rightSection}>
+          {user && (
+            <XavicoinDisplay amount={user.xaviCoins || 0} size="small" />
+          )}
+          <TouchableOpacity
+            style={headerStyles.menuButton}
+            onPress={handleMenuPress}
+            activeOpacity={0.7}
+          >
+            <View style={headerStyles.menuIcon}>
+              <View style={headerStyles.menuLine} />
+              <View style={headerStyles.menuLine} />
+              <View style={headerStyles.menuLine} />
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Modal del menú */}

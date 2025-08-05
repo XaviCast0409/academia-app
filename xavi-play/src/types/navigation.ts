@@ -6,6 +6,7 @@ export type RootStackParamList = {
   Transactions: undefined;
   Ranking: undefined;
   Missions: undefined;
+  Achievements: undefined;
 };
 
 export type TabParamList = {

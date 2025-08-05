@@ -11,8 +11,9 @@ export interface Activity {
   images: string[];
   xavicoints: number;
   professorId: number;
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  difficulty: 'beginner' | 'intermediate' | 'advanced' | 'expert';
   section: string;
+  mathTopic?: string;
   createdAt: string;
   updatedAt: string;
   professor: Professor;

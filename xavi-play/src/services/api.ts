@@ -3,8 +3,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Base API configuration
 const api = axios.create({
-  //baseURL: 'http://localhost:3000/', // ajusta a tu backend
-  baseURL: "https://academia-nho8.onrender.com/"  // produccion
+  baseURL: 'http://192.168.18.159:3000/', // IP local para React Native
+  //baseURL: 'http://localhost:3000/', // para web
+  //baseURL: "https://academia-nho8.onrender.com/"  // produccion
 });
 
 // Request interceptor for adding auth token

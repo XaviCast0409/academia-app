@@ -37,6 +37,8 @@ export interface BackendUser {
   section: string;
   level: number;
   experience: number;
+  currentStreak: number;
+  completedActivities: number;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -65,6 +67,8 @@ class AuthService {
       console.log('AuthService: Response recibida:', response.data);
       const { token, user: backendUser } = response.data;
       
+
+      
       // Transform backend user to app user format
       const user: User = {
         id: backendUser.id.toString(),
@@ -72,16 +76,17 @@ class AuthService {
         level: backendUser.level || 1,
         experience: backendUser.experience || 0,
         xaviCoins: backendUser.xavicoints || 0,
-        completedActivities: 0, // Will be fetched separately
+        completedActivities: backendUser.completedActivities || 0,
         totalXaviCoins: backendUser.xavicoints || 0,
-        currentStreak: 0, // Will be calculated
+        currentStreak: backendUser.currentStreak || 0,
         purchasedItems: 0, // Will be fetched separately
         avatar: backendUser.pokemon?.highResImageUrl || backendUser.pokemon?.imageUrl || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
         section: backendUser.section,
         roleId: backendUser.roleId,
         pokemonId: backendUser.pokemonId,
       };
-      console.log("AuthService: User transformado:", user);
+      
+
       
       // Store token
       await AsyncStorage.setItem('authToken', token);
@@ -123,6 +128,8 @@ class AuthService {
       const response = await api.get(`/users/byId/${decodedToken.id}`);
       const backendUser = response.data;
       
+
+      
       // Transform backend user to app user format
       const user: User = {
         id: backendUser.id.toString(),
@@ -130,15 +137,17 @@ class AuthService {
         level: backendUser.level || 1,
         experience: backendUser.experience || 0,
         xaviCoins: backendUser.xavicoints || 0,
-        completedActivities: 0, // Will be fetched separately
+        completedActivities: backendUser.completedActivities || 0,
         totalXaviCoins: backendUser.xavicoints || 0,
-        currentStreak: 0, // Will be calculated
+        currentStreak: backendUser.currentStreak || 0,
         purchasedItems: 0, // Will be fetched separately
         avatar: backendUser.pokemon?.highResImageUrl || backendUser.pokemon?.imageUrl || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
         section: backendUser.section,
         roleId: backendUser.roleId,
         pokemonId: backendUser.pokemonId,
       };
+      
+
 
       return user;
     } catch (error) {
@@ -153,6 +162,16 @@ class AuthService {
       return !!token;
     } catch (error) {
       return false;
+    }
+  }
+
+  // Update user streak
+  async updateStreak(userId: number): Promise<void> {
+    try {
+      await api.post(`/users/streak/${userId}`);
+    } catch (error: any) {
+      console.error('Error updating streak:', error);
+      throw new Error(error.response?.data?.message || 'Error al actualizar racha');
     }
   }
 }
