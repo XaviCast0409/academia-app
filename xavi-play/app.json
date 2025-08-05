@@ -24,6 +24,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9c4804db-0470-4fea-b8e9-fdaa81589109"
+      }
+    },
+    "owner": "xaviplay"
   }
 }
